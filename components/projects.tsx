@@ -1,49 +1,64 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Github } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, Github } from "lucide-react";
 
 export function Projects() {
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "Plataforma de comercio electrónico completa con carrito de compras, pagos y gestión de inventario.",
-      image: "/modern-ecommerce-website.png",
-      technologies: ["Next.js", "TypeScript", "Stripe", "PostgreSQL"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Landing Page con HTML, CSS y Javascript",
+      description:
+        "Plataforma de agencia de viajes con un carrucel de imagenes.",
+      image: "/LandigPage.png",
+      technologies: ["HTML, CSS y Javascript"],
+      liveUrl:
+        "https://htmlpreview.github.io/?https://github.com/lucho-39/landing-page/blob/main/index.html",
+      githubUrl: "https://github.com/lucho-39/landing-page",
     },
     {
-      title: "Task Management App",
-      description: "Aplicación de gestión de tareas con funcionalidades de colaboración en tiempo real.",
-      image: "/task-management-dashboard.png",
-      technologies: ["React", "Node.js", "Socket.io", "MongoDB"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Proyecto-frontend",
+      description:
+        "Este es un proyecto para un curso de Programador Front End, prof: Claudio Paredes;",
+      image: "/CapturaU.PNG",
+      technologies: ["HTML, CSS"],
+      liveUrl:
+        "https://htmlpreview.github.io/?https://github.com/lucho-39/proyecto-frontend/blob/main/index.html",
+      githubUrl:
+        "https://github.com/lucho-39/proyecto-frontend/blob/main/index.html",
     },
     {
-      title: "Weather Dashboard",
-      description: "Dashboard meteorológico con pronósticos detallados y visualizaciones interactivas.",
-      image: "/weather-dashboard-interface.png",
-      technologies: ["Vue.js", "Chart.js", "Weather API", "Tailwind"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "CARRITO DE COMPRAS JS",
+      description:
+        "Programa un carrito de compras con Javascript usando el localStorage para almacenar datos.",
+      image: "/Captura.PNG",
+      technologies: ["HTMT, CSS, JS"],
+      liveUrl:
+        "https://htmlpreview.github.io/?https://github.com/lucho-39/CarritoDeEnvivo/blob/main/index.html",
+      githubUrl: "https://github.com/lucho-39/CarritoDeEnvivo/tree/main",
     },
     {
       title: "Social Media Analytics",
-      description: "Herramienta de análisis de redes sociales con métricas avanzadas y reportes automáticos.",
-      image: "/social-media-analytics-dashboard.png",
+      description: "",
+      image: "",
       technologies: ["React", "D3.js", "Python", "FastAPI"],
       liveUrl: "#",
       githubUrl: "#",
     },
-  ]
+  ];
 
   return (
     <section id="proyectos" className="py-20 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">Proyectos</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
+            Proyectos
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-balance">
             Una selección de mis trabajos más recientes y destacados
           </p>
@@ -51,7 +66,10 @@ export function Projects() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow group">
+            <Card
+              key={index}
+              className="overflow-hidden hover:shadow-lg transition-shadow group"
+            >
               <div className="aspect-video overflow-hidden">
                 <img
                   src={project.image || "/placeholder.svg"}
@@ -60,8 +78,12 @@ export function Projects() {
                 />
               </div>
               <CardHeader>
-                <CardTitle className="text-xl text-primary">{project.title}</CardTitle>
-                <CardDescription className="text-base leading-relaxed">{project.description}</CardDescription>
+                <CardTitle className="text-xl text-primary">
+                  {project.title}
+                </CardTitle>
+                <CardDescription className="text-base leading-relaxed">
+                  {project.description}
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -87,5 +109,5 @@ export function Projects() {
         </div>
       </div>
     </section>
-  )
+  );
 }

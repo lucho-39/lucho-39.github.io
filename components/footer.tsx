@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Heart } from "lucide-react"
+import { Github, Linkedin, Mail, Heart } from "lucide-react";
 
 export function Footer() {
   return (
@@ -8,7 +8,8 @@ export function Footer() {
           <div>
             <h3 className="text-2xl font-bold mb-4">Lucho</h3>
             <p className="text-primary-foreground/80 leading-relaxed">
-              Desarrollador Web Full Stack apasionado por crear experiencias digitales excepcionales.
+              Desarrollador Web Full Stack apasionado por crear experiencias
+              digitales excepcionales.
             </p>
           </div>
 
@@ -72,7 +73,7 @@ export function Footer() {
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a
-                href="mailto:tu-email@ejemplo.com"
+                href="lucho.lsc46@gmail.com"
                 className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 <Mail className="h-6 w-6" />
@@ -84,10 +85,11 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center">
           <p className="text-primary-foreground/80 flex items-center justify-center gap-2">
-            Hecho con <Heart className="h-4 w-4 text-red-400" /> por Lucho © {new Date().getFullYear()}
+            Hecho con <Heart className="h-4 w-4 text-red-400" /> por Lucho ©{" "}
+            {new Date().getFullYear()}
           </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }

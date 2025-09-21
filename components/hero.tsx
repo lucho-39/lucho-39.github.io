@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 
 export function Hero() {
   return (
@@ -14,7 +14,8 @@ export function Hero() {
               Hola, soy <span className="text-accent">Lucho</span>
             </h1>
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto text-balance">
-              Desarrollador Web Full Stack apasionado por crear experiencias digitales excepcionales
+              Desarrollador Web Full Stack apasionado por crear experiencias
+              digitales excepcionales
             </p>
           </div>
 
@@ -52,7 +53,10 @@ export function Hero() {
               <Linkedin className="h-6 w-6" />
               <span className="sr-only">LinkedIn</span>
             </a>
-            <a href="mailto:tu-email@ejemplo.com" className="text-muted-foreground hover:text-accent transition-colors">
+            <a
+              href="lucho.lsc46@gmail.com"
+              className="text-muted-foreground hover:text-accent transition-colors"
+            >
               <Mail className="h-6 w-6" />
               <span className="sr-only">Email</span>
             </a>
@@ -60,5 +64,5 @@ export function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
