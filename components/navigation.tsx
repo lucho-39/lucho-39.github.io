@@ -39,9 +39,6 @@ export function Navigation() {
           <div className="flex-shrink-0">
             <span className="text-2xl font-bold text-primary">Lucho</span>
           </div>
-          <div className="w-10">
-            <img className="rounded-full ml-0" src="Imag1.jpg " alt="logo" />
-          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
