@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function DiplomaPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <main id="contenido" className="min-h-screen bg-background">
       <header className="border-b border-border bg-gradient-to-br from-background to-muted">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between gap-4">
           <a

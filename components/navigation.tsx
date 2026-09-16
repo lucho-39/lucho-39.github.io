@@ -18,6 +18,23 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close the mobile menu on Escape and hand focus back to the control that
+  // opened it, so keyboard users don't get dropped at the bottom of the page.
+  // Focus is resolved by id because the shadcn Button is a plain function
+  // component and does not forward refs.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsOpen(false);
+      document.getElementById("menu-toggle")?.focus();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   const navItems = [
     { href: "#inicio", label: "Inicio" },
     { href: "#sobre-mi", label: "Sobre mí" },
@@ -61,45 +78,55 @@ export function Navigation() {
               size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
-              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <Sun
+                aria-hidden="true"
+                className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+              />
+              <Moon
+                aria-hidden="true"
+                className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+              />
               <span className="sr-only">Cambiar tema</span>
             </Button>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
               <Button
+                id="menu-toggle"
                 variant="ghost"
                 size="icon"
+                aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isOpen}
+                aria-controls="menu-mobile"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 {isOpen ? (
-                  <X className="h-5 w-5" />
+                  <X aria-hidden="true" className="h-5 w-5" />
                 ) : (
-                  <Menu className="h-5 w-5" />
+                  <Menu aria-hidden="true" className="h-5 w-5" />
                 )}
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background border-b border-border">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-foreground hover:text-accent block px-3 py-2 rounded-md text-base font-medium transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
+        {/* Mobile Navigation. Kept in the DOM and toggled with the `hidden`
+            attribute so `aria-controls` always resolves and the links stay out
+            of the tab order while the menu is collapsed. */}
+        <div id="menu-mobile" hidden={!isOpen} className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background border-b border-border">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-foreground hover:text-accent block px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.label}
+              </a>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
