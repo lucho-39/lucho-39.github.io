@@ -30,18 +30,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup pnpm
         # Reads the version from the `packageManager` field in package.json,
         # so the CI and local dev always use the same package manager version.
         uses: pnpm/action-setup@v6
       - name: Setup Node
-        uses: actions/setup-node@v4
+        # `cache: pnpm` caches the pnpm store. setup-node@v7 also has a
+        # `package-manager-cache` input that defaults to true, but it only
+        # auto-enables for npm, so the explicit cache here is what applies.
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
           cache: "pnpm"
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
         with:
           # Injects basePath / assetPrefix into next.config.js and disables
           # server-side image optimization. next.config.js must stay a plain
@@ -50,7 +53,7 @@ jobs:
           # step fail.
           static_site_generator: next
       - name: Restore cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             .next/cache
@@ -64,7 +67,11 @@ jobs:
       - name: Build with Next.js
         run: pnpm build
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        # From v4 onwards this action excludes hidden files (anything starting
+        # with a dot) unless `include-hidden-files: true` is set. Nothing in
+        # `out/` is hidden today and `.git`/`.github` are always excluded, so the
+        # default is fine. Set the flag if a `.nojekyll` is ever needed.
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./out
 
@@ -78,4 +85,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
