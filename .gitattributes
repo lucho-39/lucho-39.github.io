@@ -1,0 +1,7 @@
+# Normalize line endings to LF inside the repository.
+#
+# Without this, an editor saving CRLF produced whole-file diffs on files that
+# had no content changes (yarn.lock alone churned ~3.6k lines). With
+# `text=auto` git normalizes on commit and compares normalized content, so a
+# CRLF working copy no longer shows up as a modified file.
+* text=auto
