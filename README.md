@@ -45,9 +45,14 @@ npx serve out    # lo sirve localmente para revisarlo
 
 ```
 app/
-  layout.tsx        Layout raíz: metadata, fuentes, ThemeProvider, Analytics
+  layout.tsx        Layout raíz: metadata y SEO, fuentes, ThemeProvider, Analytics
   page.tsx          Compone las secciones en orden
   globals.css       Tokens de diseño (colores, radios) y variantes de Tailwind
+  sitemap.ts        Genera /sitemap.xml
+  robots.ts         Genera /robots.txt
+  opengraph-image.png  Tarjeta 1200x630 para redes sociales
+  icon.png          Favicon 512x512
+  apple-icon.png    Icono para iOS 180x180
 components/
   navigation.tsx    Barra fija + toggle de tema + menú mobile
   hero.tsx          Portada con la foto de perfil
@@ -60,6 +65,7 @@ components/
   ui/               Componentes de shadcn/ui
 hooks/              Hooks reutilizables
 lib/utils.ts        Helper `cn()` para combinar clases de Tailwind
+lib/site.ts         URL, nombre y descripción del sitio (fuente única para SEO)
 public/             Imágenes: foto de perfil, fondos de sección, capturas, diploma
 ```
 
@@ -106,6 +112,41 @@ Las secciones usan imágenes de fondo con una capa `bg-background/85` en claro y
 `dark:bg-background/90` en oscuro. Esas opacidades están calculadas para cumplir
 contraste WCAG AA (7.30:1 y 5.29:1 en el peor caso). **No conviene bajarlas** para
 "ver más la foto": los párrafos en modo oscuro caen por debajo del mínimo.
+
+---
+
+### Las imágenes de SEO son PNG estáticos, no rutas de Next
+
+`app/opengraph-image.png`, `app/icon.png` y `app/apple-icon.png` son archivos,
+no `opengraph-image.tsx` ni `icon.tsx`. La razón es concreta.
+
+Cuando Next genera esas imágenes desde código, en un `output: 'export'` las
+escribe **sin extensión** (la ruta queda en `/opengraph-image`). GitHub Pages
+decide el `Content-Type` según la extensión del archivo, así que un archivo sin
+extensión se sirve como `application/octet-stream` — y los crawlers de LinkedIn,
+WhatsApp o Slack descartan la imagen sin avisar. Un PNG con extensión siempre se
+sirve como `image/png`.
+
+Un archivo estático además evita depender de Satori y de binarios WASM en cada
+build.
+
+Se generaron una sola vez con `ImageResponse` de `next/og`, usando la tipografía
+Geist real del sitio, y después se congelaron como archivos. Para regenerarlas
+hay que descargar `Geist-Regular.ttf`, `Geist-Medium.ttf` y `Geist-Bold.ttf`
+(están en `vercel/geist-font`, carpeta `fonts/Geist/ttf`) — Satori no soporta el
+woff2 que trae el paquete `geist` — recrear la ruta temporal con el diseño,
+correr `pnpm build` y copiar el resultado de `out/` a `app/`.
+
+### El SEO vive en tres lugares
+
+| Qué | Dónde |
+|---|---|
+| Título, descripción, OpenGraph, Twitter, canonical, robots | `app/layout.tsx` |
+| URL, nombre y descripción del sitio | `lib/site.ts` (fuente única) |
+| `sitemap.xml` y `robots.txt` | `app/sitemap.ts` y `app/robots.ts` |
+
+`sitemap.ts` no setea `lastModified` a propósito: cambiaría en cada build sin
+decir nada útil.
 
 ---
 
