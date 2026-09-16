@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export function About() {
   return (
@@ -70,11 +71,32 @@ export function About() {
           </div>
 
           <div className="flex justify-center">
-            <div className="w-80 h-80 bg-gradient-to-br from-accent/20 to-secondary/20 rounded-full flex items-center justify-center">
-              <div className="w-64 h-64 bg-card rounded-full flex items-center justify-center shadow-lg">
-                <div className="text-6xl">👨‍💻</div>
-              </div>
-            </div>
+            <Card className="w-full max-w-md">
+              <CardContent className="p-4 sm:p-6">
+                <a
+                  href="/diploma.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <img
+                    src="/diploma.jpg"
+                    width={2267}
+                    height={1608}
+                    loading="lazy"
+                    alt="Diploma de Programador FrontEnd otorgado por el Centro de Capacitación Laboral y Formación Profesional N.º 6625"
+                    className="w-full h-auto rounded-md"
+                  />
+                </a>
+                <div className="mt-4 flex flex-col items-center gap-2 text-center">
+                  <Badge>Programador FrontEnd</Badge>
+                  <p className="text-sm text-muted-foreground">
+                    Centro de Capacitación Laboral y Formación Profesional N.º 6625
+                    — Rosario, 2025
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
