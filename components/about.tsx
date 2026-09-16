@@ -74,7 +74,7 @@ export function About() {
             <Card className="w-full max-w-md">
               <CardContent className="p-4 sm:p-6">
                 <a
-                  href="/diploma.jpg"
+                  href="/diploma"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block"
