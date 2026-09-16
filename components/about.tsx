@@ -2,7 +2,18 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export function About() {
   return (
-    <section id="sobre-mi" className="py-20 bg-muted/50">
+    <section
+      id="sobre-mi"
+      className="relative isolate overflow-hidden py-20 bg-muted/50"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[url('/fondo3.jpg')] bg-cover bg-center bg-no-repeat"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-background/85 dark:bg-background/90"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
