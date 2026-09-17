@@ -76,6 +76,21 @@ public/             Imágenes: foto de perfil, fondos de sección, capturas, dip
 Estas son las cosas que no se ven leyendo el código y que cuestan tiempo si se
 descubren a golpes.
 
+### Las imágenes de los proyectos están optimizadas y son lazy
+
+`public/` pesa alrededor de 1.4 MB y **todo lo que hay ahí está referenciado**. Los
+tres screenshots de proyectos están en JPEG a 1200px de ancho en vez de PNG, lo
+que bajó su peso de 2.4 MB a 330 KB sin pérdida visible a la resolución en que se
+muestran.
+
+Además llevan `loading="lazy"` porque la sección de proyectos está debajo del
+pliegue: no tiene sentido que un visitante que no scrollea descargue medio
+megabyte de capturas.
+
+Si alguna vez se agrega o cambia una imagen, conviene mantener las dos cosas. Y
+si se borra un archivo de `public/`, recordar que **lo que no se referencia igual
+se copia a `out/`**: no rompe nada, pero engorda el deploy.
+
 ### `next.config.js` debe seguir siendo un objeto literal
 
 El workflow de GitHub Pages usa `actions/configure-pages` con

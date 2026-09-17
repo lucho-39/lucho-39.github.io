@@ -41,7 +41,9 @@ jobs:
         # auto-enables for npm, so the explicit cache here is what applies.
         uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          # Matches the Node version used for local development, so a build that
+          # works locally is not broken by a different runtime in CI.
+          node-version: "24"
           cache: "pnpm"
       - name: Setup Pages
         uses: actions/configure-pages@v6

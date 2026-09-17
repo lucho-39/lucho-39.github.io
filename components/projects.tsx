@@ -23,7 +23,7 @@ export function Projects() {
       title: "Landing Page con HTML, CSS y Javascript",
       description:
         "Plataforma de agencia de viajes con un carrucel de imagenes.",
-      image: "/LandigPage.png",
+      image: "/LandigPage.jpg",
       technologies: ["HTML", "CSS", "JavaScript"],
       githubUrl: "https://github.com/lucho-39/landing-page",
     },
@@ -31,7 +31,7 @@ export function Projects() {
       title: "Proyecto-frontend",
       description:
         "Este es un proyecto para un curso de Programador Front End, prof: Claudio Paredes;",
-      image: "/CapturaU.PNG",
+      image: "/CapturaU.jpg",
       technologies: ["HTML", "CSS"],
       githubUrl: "https://github.com/lucho-39/proyecto-frontend",
     },
@@ -39,7 +39,7 @@ export function Projects() {
       title: "CARRITO DE COMPRAS JS",
       description:
         "Programa un carrito de compras con Javascript usando el localStorage para almacenar datos.",
-      image: "/Captura.PNG",
+      image: "/Captura.jpg",
       technologies: ["HTML", "CSS", "JS"],
       githubUrl: "https://github.com/lucho-39/CarritoDeEnvivo/tree/main",
     },
@@ -94,6 +94,8 @@ export function Projects() {
                 <img
                   src={project.image || "/placeholder.svg"}
                   alt={project.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>

@@ -18,6 +18,17 @@ test.describe("Página principal", () => {
     });
 
     await page.goto("/");
+
+    // Scroll through the whole page first. Images below the fold are lazy, so
+    // without this the browser never requests them and a broken path would go
+    // unnoticed.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += 500) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 120));
+      }
+      window.scrollTo(0, 0);
+    });
     await page.waitForLoadState("networkidle");
 
     // This is the test that would have caught the broken navbar logo and the
@@ -77,6 +88,20 @@ test.describe("Página principal", () => {
     for (let i = 0; i < 4; i++) {
       await expect(codeLinks.nth(i)).toHaveAttribute("href", /^https:\/\/github\.com\/lucho-39\//);
       await expect(codeLinks.nth(i)).toHaveAttribute("rel", "noopener noreferrer");
+    }
+
+    // The screenshots are lazy, so assert they actually decode. Without this
+    // the "no broken resources" test could pass without ever requesting them.
+    const images = proyectos.locator("img");
+    await expect(images).toHaveCount(4);
+    for (let i = 0; i < 4; i++) {
+      const img = images.nth(i);
+      await img.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth), {
+          message: `la imagen del proyecto ${i + 1} no cargó`,
+        })
+        .toBeGreaterThan(0);
     }
   });
 
