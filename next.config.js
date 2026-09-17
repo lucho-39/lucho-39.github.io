@@ -9,6 +9,11 @@
 // Error` that broke the whole deploy step.
 const nextConfig = {
   output: "export",
+  // Hides the circular Next.js badge that `next dev` pins to the bottom-left
+  // corner. It never ships in a production build, so this only affects local
+  // development. Compile and runtime errors are still reported.
+  // Set `{ position: "bottom-right" }` instead to keep it but move it.
+  devIndicators: false,
 };
 
 module.exports = nextConfig;
