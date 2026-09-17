@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowLeft, Award } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -30,19 +31,19 @@ export default function DiplomaPage() {
     <main id="contenido" className="min-h-screen bg-background">
       <header className="border-b border-border bg-gradient-to-br from-background to-muted">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between gap-4">
-          <a
+          <Link
             href="/"
             className="text-2xl font-bold text-primary hover:text-accent transition-colors"
           >
             Lucho
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-accent transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             Volver al portfolio
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -78,13 +79,13 @@ export default function DiplomaPage() {
         </p>
 
         <div className="text-center mt-10">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
           >
             <ArrowLeft className="h-4 w-4" />
             Volver al portfolio
-          </a>
+          </Link>
         </div>
       </div>
     </main>
