@@ -7,11 +7,11 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "serve out"
+    "start": "serve out",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.1.1",
-    "@vercel/analytics": "1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "geist": "1.5.1",
@@ -23,6 +23,7 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^22.20.3",
     "@types/react": "^18.3.26",

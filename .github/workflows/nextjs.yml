@@ -66,6 +66,14 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build with Next.js
         run: pnpm build
+      - name: Install Playwright browsers
+        # --with-deps installs the system libraries Chromium needs, which the
+        # ubuntu-latest runner does not ship by default.
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Run smoke tests
+        # Runs against the export in out/, so a broken build or broken links
+        # stop the deploy instead of shipping.
+        run: pnpm exec playwright test
       - name: Upload artifact
         # From v4 onwards this action excludes hidden files (anything starting
         # with a dot) unless `include-hidden-files: true` is set. Nothing in

@@ -173,6 +173,7 @@ grandes ahí sin motivo.
 | `pnpm build` | Build de producción y export estático a `out/`. Corre ESLint y el type-check |
 | `pnpm start` | Sirve `out/` para revisar el build de producción tal como se publica |
 | `pnpm lint` | ESLint con el preset `next/core-web-vitals` |
+| `pnpm test:e2e` | Suite de smoke tests con Playwright |
 
 `pnpm start` usa `serve`, que si encuentra el puerto 3000 ocupado —por ejemplo
 porque tenés `pnpm dev` corriendo— elige otro y lo imprime en la terminal. Hay
@@ -187,6 +188,41 @@ conviene saltar a ESLint 9+ sin mover antes Next a una versión que lo soporte**
 
 La regla `@next/next/no-img-element` está desactivada a propósito, y
 `.eslintrc.js` explica por qué.
+
+---
+
+## Tests
+
+`pnpm test:e2e` corre la suite de smoke tests con Playwright contra el **build de
+producción servido desde `out/`**, no contra el dev server, porque eso es lo que
+se publica. El `webServer` del config construye el sitio antes de correr, así que
+el comando es autocontenido.
+
+Cubre lo que efectivamente se rompió o podría romperse:
+
+| Archivo | Qué verifica |
+|---|---|
+| `e2e/home.spec.ts` | Que no haya errores de consola ni recursos 404, las secciones y su orden, los enlaces del nav, los 4 proyectos con la demo deshabilitada, el contacto y los fondos por sección |
+| `e2e/accessibility.spec.ts` | Skip link, toggle de tema y el menú mobile: abrir, cerrar con Escape y que el foco vuelva al botón |
+| `e2e/seo.spec.ts` | Que `og:image` sea absoluta y termine en `.png`, favicon, canonical, `sitemap.xml`, `robots.txt`, los `Content-Type` de las imágenes y la página del diploma |
+
+El test de "sin recursos rotos" es el más valioso: es el que hubiera detectado
+tanto el logo del nav apuntando a `Imag1.jpg ` como el script de analytics que
+devolvía 404 en cada carga.
+
+**En CI corren solos, antes de publicar.** El workflow instala Chromium con
+`--with-deps` y corre `pnpm exec playwright test` después del build. Si un test
+falla, el deploy no se hace.
+
+### Si los tests no arrancan en WSL
+
+Chromium necesita librerías del sistema. En una Ubuntu limpia puede faltar
+`libnspr4`, `libnss3` o `libasound2`, y el error empieza con
+`error while loading shared libraries`. Se resuelve con:
+
+```bash
+sudo pnpm exec playwright install-deps chromium
+```
 
 ---
 
