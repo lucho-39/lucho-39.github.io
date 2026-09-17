@@ -167,12 +167,26 @@ grandes ahí sin motivo.
 
 ## Scripts
 
-| Script | Estado | Qué hace |
-|---|---|---|
-| `pnpm dev` | ✅ | Servidor de desarrollo en el puerto 3000 |
-| `pnpm build` | ✅ | Build de producción + export estático a `out/` |
-| `pnpm start` | ⚠️ | **No funciona**: `next start` no es compatible con `output: 'export'`. Usar `npx serve out` |
-| `pnpm lint` | ⚠️ | **No funciona**: no hay configuración de ESLint en el proyecto |
+| Script | Qué hace |
+|---|---|
+| `pnpm dev` | Servidor de desarrollo en el puerto 3000 |
+| `pnpm build` | Build de producción y export estático a `out/`. Corre ESLint y el type-check |
+| `pnpm start` | Sirve `out/` para revisar el build de producción tal como se publica |
+| `pnpm lint` | ESLint con el preset `next/core-web-vitals` |
+
+`pnpm start` usa `serve`, que si encuentra el puerto 3000 ocupado —por ejemplo
+porque tenés `pnpm dev` corriendo— elige otro y lo imprime en la terminal. Hay
+que mirar la URL que muestra.
+
+### ESLint está fijado en la versión 8
+
+`eslint-config-next` 14.x declara `eslint: ^7.23.0 || ^8.0.0`, así que ESLint 8
+es la versión correcta para este proyecto aunque ya existan la 9 y la 10. **No
+conviene saltar a ESLint 9+ sin mover antes Next a una versión que lo soporte**:
+`next lint` dejaría de funcionar.
+
+La regla `@next/next/no-img-element` está desactivada a propósito, y
+`.eslintrc.js` explica por qué.
 
 ---
 

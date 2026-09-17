@@ -73,8 +73,8 @@ export default function DiplomaPage() {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-6 text-balance">
-          Otorgado por la Escuela Primaria Nocturna N.º 13 "Alejandro María
-          Aguado", Educación para Jóvenes y Adultos.
+          Otorgado por la Escuela Primaria Nocturna N.º 13 «Alejandro María
+          Aguado», Educación para Jóvenes y Adultos.
         </p>
 
         <div className="text-center mt-10">
