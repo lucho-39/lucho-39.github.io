@@ -66,6 +66,11 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Lint
+        # Next 16 removed `next lint`, and with it ESLint stopped running as
+        # part of `next build`. Without this step linting would silently stop
+        # happening in CI.
+        run: pnpm lint
       - name: Build with Next.js
         run: pnpm build
       - name: Install Playwright browsers

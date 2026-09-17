@@ -63,7 +63,6 @@ export default function DiplomaPage() {
         </div>
 
         <div className="rounded-xl border border-border bg-card p-3 sm:p-5 shadow-sm">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/diploma.jpg"
             alt="Diploma de Programador FrontEnd otorgado a Luciano Gaspar Santa Cruz por el Centro de Capacitación Laboral y Formación Profesional N.º 6625"
