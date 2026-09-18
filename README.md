@@ -30,8 +30,8 @@ npx serve out    # lo sirve localmente para revisarlo
 
 | Capa | Tecnología |
 |---|---|
-| Framework | Next.js 14 (App Router) con `output: 'export'` |
-| UI | React 18 + TypeScript |
+| Framework | Next.js 16 (App Router) con `output: 'export'`, build con Turbopack |
+| UI | React 19 + TypeScript |
 | Estilos | Tailwind CSS v4 + `tw-animate-css` |
 | Componentes | shadcn/ui (estilo new-york) sobre Radix UI |
 | Iconos | lucide-react |
@@ -45,7 +45,7 @@ npx serve out    # lo sirve localmente para revisarlo
 
 ```
 app/
-  layout.tsx        Layout raíz: metadata y SEO, fuentes, ThemeProvider, Analytics
+  layout.tsx        Layout raíz: metadata y SEO, fuentes, skip link, ThemeProvider
   page.tsx          Compone las secciones en orden
   globals.css       Tokens de diseño (colores, radios) y variantes de Tailwind
   sitemap.ts        Genera /sitemap.xml
@@ -62,11 +62,11 @@ components/
   contact.tsx       Datos de contacto
   footer.tsx        Pie de página
   theme-provider.tsx
-  ui/               Componentes de shadcn/ui
-hooks/              Hooks reutilizables
+  ui/               Los tres componentes de shadcn/ui que se usan: badge, button y card
 lib/utils.ts        Helper `cn()` para combinar clases de Tailwind
 lib/site.ts         URL, nombre y descripción del sitio (fuente única para SEO)
 public/             Imágenes: foto de perfil, fondos de sección, capturas, diploma
+e2e/                Smoke tests de Playwright
 ```
 
 ---
@@ -76,20 +76,30 @@ public/             Imágenes: foto de perfil, fondos de sección, capturas, dip
 Estas son las cosas que no se ven leyendo el código y que cuestan tiempo si se
 descubren a golpes.
 
-### Las imágenes de los proyectos están optimizadas y son lazy
+### Las imágenes están optimizadas, y los fondos mucho más
 
-`public/` pesa alrededor de 1.4 MB y **todo lo que hay ahí está referenciado**. Los
-tres screenshots de proyectos están en JPEG a 1200px de ancho en vez de PNG, lo
-que bajó su peso de 2.4 MB a 330 KB sin pérdida visible a la resolución en que se
-muestran.
+`public/` pesa alrededor de 944 KB y **todo lo que hay ahí está referenciado**.
 
-Además llevan `loading="lazy"` porque la sección de proyectos está debajo del
-pliegue: no tiene sentido que un visitante que no scrollea descargue medio
-megabyte de capturas.
+Los tres screenshots de proyectos estaban en PNG a ~1300px y pesaban 2.4 MB en
+total, cargados sin `loading="lazy"` en una sección que está debajo del pliegue.
+Ahora son JPEG a 1200px (que sigue siendo 2x del ancho al que se muestran) con
+`loading="lazy"` y `decoding="async"`: **330 KB en total**.
 
-Si alguna vez se agrega o cambia una imagen, conviene mantener las dos cosas. Y
-si se borra un archivo de `public/`, recordar que **lo que no se referencia igual
-se copia a `out/`**: no rompe nada, pero engorda el deploy.
+Los cuatro fondos de sección eran 689 KB y **están detrás de un overlay al 85%
+en claro y 90% en oscuro**, o sea que solo se ve entre el 10% y el 15% de la
+imagen. Bajarlos a 1600px de ancho y calidad ~65 los dejó en **211 KB sin
+diferencia perceptible**: la diferencia media por píxel bajo el overlay, medida
+al ancho real de despliegue, quedó entre **0.11 y 0.41 sobre 255** — por debajo
+del propio límite de cuantización de 8 bits, que es 0.5.
+
+Si alguna vez se agrega o cambia una imagen, conviene mantener las dos cosas: el
+formato/peso razonable y el `loading="lazy"` para lo que está fuera de pantalla.
+Y si se borra un archivo de `public/`, recordar que **lo que no se referencia
+igual se copia a `out/`**: no rompe nada, pero engorda el deploy.
+
+El único archivo pesado que queda es `diploma.jpg` (324 KB), y es a propósito:
+se puede clickear para verlo a tamaño completo, así que conserva su resolución
+original.
 
 ### `next.config.js` debe seguir siendo un objeto literal
 
@@ -169,7 +179,7 @@ decir nada útil.
 
 Automático. Cada push a `main` dispara `.github/workflows/nextjs.yml`, que:
 
-1. Instala pnpm y Node 22.
+1. Instala pnpm y Node 24.
 2. Ejecuta `pnpm install --frozen-lockfile`.
 3. Ejecuta `pnpm build` y genera `out/`.
 4. Publica `out/` en GitHub Pages.
